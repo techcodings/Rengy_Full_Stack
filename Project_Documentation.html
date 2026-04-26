@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TeamVault — Project Documentation</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;color:#1a1a2e;line-height:1.7;padding:40px 60px;max-width:900px;margin:0 auto}
+@media print{body{padding:20px 40px}}
+h1{font-size:28px;color:#1a1a2e;border-bottom:3px solid #6c63ff;padding-bottom:10px;margin-bottom:5px}
+h2{font-size:20px;color:#6c63ff;margin-top:35px;margin-bottom:12px;border-left:4px solid #6c63ff;padding-left:12px}
+h3{font-size:16px;color:#333;margin-top:20px;margin-bottom:8px}
+p{margin-bottom:10px;font-size:14px}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th{background:#6c63ff;color:#fff;padding:8px 12px;text-align:left}
+td{padding:8px 12px;border:1px solid #ddd}
+tr:nth-child(even){background:#f8f8ff}
+ul,ol{margin:8px 0 12px 24px;font-size:14px}
+li{margin-bottom:4px}
+code{background:#f0f0f5;padding:2px 6px;border-radius:3px;font-size:13px;font-family:'Consolas',monospace}
+pre{background:#1a1a2e;color:#e0e0e0;padding:14px 18px;border-radius:8px;margin:10px 0;font-size:13px;overflow-x:auto;line-height:1.5}
+.cover{text-align:center;padding:80px 0 60px;page-break-after:always}
+.cover h1{font-size:42px;border:none;color:#6c63ff;margin-bottom:10px}
+.cover .subtitle{font-size:18px;color:#555;margin-bottom:30px}
+.cover .meta{font-size:14px;color:#777;margin-top:40px;line-height:2}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600;color:#fff}
+.bg-green{background:#10b981}.bg-blue{background:#3b82f6}.bg-red{background:#ef4444}.bg-yellow{background:#f59e0b}.bg-purple{background:#6c63ff}
+.highlight{background:#f0edff;border-left:4px solid #6c63ff;padding:12px 16px;margin:12px 0;border-radius:0 6px 6px 0;font-size:14px}
+.page-break{page-break-before:always}
+.flow-box{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+.flow-step{background:#6c63ff;color:#fff;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600}
+.flow-arrow{font-size:18px;color:#6c63ff}
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+<h1>TeamVault</h1>
+<p class="subtitle">Team Management System with Role-Based Access Control</p>
+<p style="font-size:15px;color:#6c63ff;font-weight:600">Full-Stack MERN Application</p>
+<div style="margin:40px auto;width:200px;height:3px;background:linear-gradient(90deg,#6c63ff,#10b981)"></div>
+<div class="meta">
+<p><strong>Technology:</strong> MongoDB · Express.js · React · Node.js</p>
+<p><strong>Repository:</strong> github.com/techcodings/Rengy_Full_Stack</p>
+<p><strong>Date:</strong> April 2026</p>
+<p><strong>Author:</strong> Rengy</p>
+</div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<h2>Table of Contents</h2>
+<ol>
+<li>Project Overview</li>
+<li>Technology Stack</li>
+<li>System Architecture</li>
+<li>Database Design</li>
+<li>RBAC Permission Flow</li>
+<li>API Endpoints</li>
+<li>Frontend Pages</li>
+<li>Project Structure</li>
+<li>Setup & Installation Guide</li>
+<li>Seed Data Reference</li>
+</ol>
+
+<!-- 1. PROJECT OVERVIEW -->
+<div class="page-break"></div>
+<h2>1. Project Overview</h2>
+<p>TeamVault is a production-ready, full-stack web application built using the MERN stack (MongoDB, Express.js, React, Node.js) that implements a <strong>team-scoped Role-Based Access Control (RBAC)</strong> system.</p>
+<p>The application enables organizations to manage users, teams, roles, and permissions with a dynamic authorization model where a user can hold <strong>different roles in different teams</strong>.</p>
+
+<h3>Key Features</h3>
+<ul>
+<li><strong>User Management</strong> — Create users with unique email, search and filter with pagination</li>
+<li><strong>Team Management</strong> — Create teams, add/remove members, view team compositions</li>
+<li><strong>Role Management</strong> — Create reusable roles (Admin, Manager, Viewer) with configurable permissions</li>
+<li><strong>Permission Collection</strong> — Permissions stored as first-class DB entities (not hardcoded strings)</li>
+<li><strong>Team-Scoped RBAC</strong> — User A can be Admin in Team Alpha but Viewer in Team Beta</li>
+<li><strong>Permission Resolver</strong> — Dynamic UI to query any user's effective permissions in any team</li>
+<li><strong>JWT Authentication</strong> — Secure login/register with token-based auth</li>
+<li><strong>Authorization Middleware</strong> — Reusable <code>checkPermission('CREATE_TASK')</code> middleware</li>
+</ul>
+
+<!-- 2. TECH STACK -->
+<h2>2. Technology Stack</h2>
+<table>
+<tr><th>Layer</th><th>Technology</th><th>Purpose</th></tr>
+<tr><td>Frontend</td><td>React 18 + Vite</td><td>Single-page application with hooks</td></tr>
+<tr><td>Styling</td><td>Tailwind CSS + Custom CSS</td><td>Dark theme with glassmorphism design</td></tr>
+<tr><td>Animation</td><td>Framer Motion</td><td>Page transitions and micro-animations</td></tr>
+<tr><td>HTTP Client</td><td>Axios</td><td>API calls with JWT interceptors</td></tr>
+<tr><td>Backend</td><td>Node.js + Express.js</td><td>REST API server</td></tr>
+<tr><td>Database</td><td>MongoDB + Mongoose</td><td>Document database with ODM</td></tr>
+<tr><td>Authentication</td><td>JWT + bcryptjs</td><td>Token auth with password hashing</td></tr>
+<tr><td>Validation</td><td>express-validator</td><td>Request validation middleware</td></tr>
+<tr><td>Security</td><td>Helmet + CORS</td><td>HTTP headers and cross-origin policy</td></tr>
+</table>
+
+<!-- 3. SYSTEM ARCHITECTURE -->
+<h2>3. System Architecture</h2>
+<p>The application follows a <strong>layered architecture</strong> with clear separation of concerns:</p>
+<div class="flow-box">
+<span class="flow-step">Client (React)</span><span class="flow-arrow">→</span>
+<span class="flow-step">Axios + JWT</span><span class="flow-arrow">→</span>
+<span class="flow-step">Express Routes</span><span class="flow-arrow">→</span>
+<span class="flow-step">Middleware</span><span class="flow-arrow">→</span>
+<span class="flow-step">Controllers</span><span class="flow-arrow">→</span>
+<span class="flow-step">Services</span><span class="flow-arrow">→</span>
+<span class="flow-step">MongoDB</span>
+</div>
+
+<h3>Backend Layers</h3>
+<table>
+<tr><th>Layer</th><th>Responsibility</th><th>Example</th></tr>
+<tr><td><strong>Routes</strong></td><td>Define endpoints, attach middleware</td><td><code>router.post('/', auth, validate, controller.create)</code></td></tr>
+<tr><td><strong>Middleware</strong></td><td>Auth, authorization, validation, errors</td><td><code>checkPermission('CREATE_TASK')</code></td></tr>
+<tr><td><strong>Controllers</strong></td><td>Thin — parse request, call service, send response</td><td><code>const result = await service.create(req.body)</code></td></tr>
+<tr><td><strong>Services</strong></td><td>Business logic, DB queries, validations</td><td><code>await Role.findById(id).populate('permissions')</code></td></tr>
+<tr><td><strong>Models</strong></td><td>Mongoose schemas, indexes, transforms</td><td><code>Membership { userId, teamId, roleId }</code></td></tr>
+</table>
+
+<!-- 4. DATABASE DESIGN -->
+<div class="page-break"></div>
+<h2>4. Database Design</h2>
+<p>The system uses <strong>5 MongoDB collections</strong> with proper ObjectId references:</p>
+
+<table>
+<tr><th>Collection</th><th>Fields</th><th>Purpose</th></tr>
+<tr><td><strong>users</strong></td><td>name, email (unique), password (hashed)</td><td>User accounts</td></tr>
+<tr><td><strong>teams</strong></td><td>name, description, createdBy</td><td>Team entities</td></tr>
+<tr><td><strong>permissions</strong></td><td>name (unique, UPPER_SNAKE_CASE), description</td><td>Permission definitions</td></tr>
+<tr><td><strong>roles</strong></td><td>name (unique), permissions: [ObjectId→Permission], description</td><td>Roles with permission refs</td></tr>
+<tr><td><strong>memberships</strong></td><td>userId→User, teamId→Team, roleId→Role</td><td>User-Team-Role mapping</td></tr>
+</table>
+
+<div class="highlight">
+<strong>Critical Design Decision:</strong> Roles are NOT stored on the User document. The <code>Membership</code> collection maps <code>(userId, teamId, roleId)</code>, enabling a user to hold different roles in different teams. This is the industry-standard approach for team-scoped RBAC.
+</div>
+
+<h3>Relationship Diagram</h3>
+<pre>
+  User ──────┐
+              │  userId
+              ▼
+         Membership ◄── Compound Unique Index (userId + teamId)
+              │
+   teamId ────┤──── roleId
+              │         │
+              ▼         ▼
+            Team      Role ──→ permissions: [ObjectId]
+                                     │
+                                     ▼
+                                Permission { name, description }
+</pre>
+
+<!-- 5. RBAC PERMISSION FLOW -->
+<h2>5. RBAC Permission Flow</h2>
+<p>When a protected API request is made, the authorization follows this flow:</p>
+
+<div class="flow-box">
+<span class="flow-step">1. JWT Token</span><span class="flow-arrow">→</span>
+<span class="flow-step">2. auth.js</span><span class="flow-arrow">→</span>
+<span class="flow-step">3. checkPermission()</span><span class="flow-arrow">→</span>
+<span class="flow-step">4. Membership Lookup</span><span class="flow-arrow">→</span>
+<span class="flow-step">5. Role → Permissions</span><span class="flow-arrow">→</span>
+<span class="flow-step">6. Allow/Deny</span>
+</div>
+
+<ol>
+<li>Client sends request with <code>Authorization: Bearer &lt;JWT&gt;</code> + <code>teamId</code></li>
+<li><code>auth.js</code> middleware verifies JWT → attaches <code>req.user</code></li>
+<li><code>checkPermission("CREATE_TASK")</code> middleware runs</li>
+<li>Looks up <code>Membership</code> for <code>(userId, teamId)</code></li>
+<li>Deep populates: <code>Role → Permission[]</code> → extracts permission names</li>
+<li>If permission found → <code>next()</code> | If not → <code>403 Forbidden</code></li>
+</ol>
+
+<h3>Usage Example</h3>
+<pre>
+// In route definition:
+router.post('/tasks',
+  auth,                             // Step 1-2: Verify JWT
+  checkPermission('CREATE_TASK'),   // Step 3-6: Check permission
+  taskController.createTask         // Handler runs only if authorized
+);
+</pre>
+
+<!-- 6. API ENDPOINTS -->
+<h2>6. API Endpoints</h2>
+
+<h3>Authentication</h3>
+<table>
+<tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+<tr><td><span class="badge bg-green">POST</span></td><td>/api/auth/register</td><td>Register new user</td></tr>
+<tr><td><span class="badge bg-green">POST</span></td><td>/api/auth/login</td><td>Login → returns JWT</td></tr>
+<tr><td><span class="badge bg-blue">GET</span></td><td>/api/auth/me</td><td>Get current user profile</td></tr>
+</table>
+
+<h3>Users</h3>
+<table>
+<tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+<tr><td><span class="badge bg-green">POST</span></td><td>/api/users</td><td>Create user</td></tr>
+<tr><td><span class="badge bg-blue">GET</span></td><td>/api/users?search=&page=&limit=</td><td>List users (search + pagination)</td></tr>
+</table>
+
+<h3>Teams & Membership</h3>
+<table>
+<tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+<tr><td><span class="badge bg-green">POST</span></td><td>/api/teams</td><td>Create team</td></tr>
+<tr><td><span class="badge bg-blue">GET</span></td><td>/api/teams</td><td>List teams</td></tr>
+<tr><td><span class="badge bg-green">POST</span></td><td>/api/teams/:id/add-user</td><td>Add member to team</td></tr>
+<tr><td><span class="badge bg-red">DELETE</span></td><td>/api/teams/:id/remove-user</td><td>Remove member from team</td></tr>
+<tr><td><span class="badge bg-blue">GET</span></td><td>/api/teams/:id/members</td><td>List team members</td></tr>
+</table>
+
+<h3>Roles & Permissions</h3>
+<table>
+<tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+<tr><td><span class="badge bg-green">POST</span></td><td>/api/roles</td><td>Create role (with Permission ObjectIds)</td></tr>
+<tr><td><span class="badge bg-blue">GET</span></td><td>/api/roles</td><td>List roles (populated permissions)</td></tr>
+<tr><td><span class="badge bg-green">POST</span></td><td>/api/permissions</td><td>Create permission</td></tr>
+<tr><td><span class="badge bg-blue">GET</span></td><td>/api/permissions/constants</td><td>List all permissions</td></tr>
+<tr><td><span class="badge bg-blue">GET</span></td><td>/api/permissions?userId=&teamId=</td><td>Resolve user permissions in team</td></tr>
+<tr><td><span class="badge bg-green">POST</span></td><td>/api/assign-role</td><td>Assign role to user in team</td></tr>
+<tr><td><span class="badge bg-yellow">PUT</span></td><td>/api/update-role</td><td>Update role assignment</td></tr>
+</table>
+
+<!-- 7. FRONTEND PAGES -->
+<div class="page-break"></div>
+<h2>7. Frontend Pages</h2>
+<table>
+<tr><th>Page</th><th>Route</th><th>Features</th></tr>
+<tr><td><strong>Login</strong></td><td>/login</td><td>Email/password, JWT auth, demo credentials</td></tr>
+<tr><td><strong>Register</strong></td><td>/register</td><td>Name, email, password with validation</td></tr>
+<tr><td><strong>Dashboard</strong></td><td>/</td><td>Stat cards (users, teams, roles), recent lists</td></tr>
+<tr><td><strong>Users</strong></td><td>/users</td><td>User list, search by name/email, pagination, create modal</td></tr>
+<tr><td><strong>Teams</strong></td><td>/teams</td><td>Team list, expandable members panel, add/remove, role badges</td></tr>
+<tr><td><strong>Roles</strong></td><td>/roles</td><td>Role cards with color-coded permission badges, create modal</td></tr>
+<tr><td><strong>Permissions</strong></td><td>/permissions</td><td>User+Team dropdowns → dynamic GRANTED/DENIED cards</td></tr>
+</table>
+
+<!-- 8. PROJECT STRUCTURE -->
+<h2>8. Project Structure</h2>
+<pre>
+Rengy_Full_Stack/
+├── .gitignore
+├── README.md
+│
+├── server/                          # Backend (Express + MongoDB)
+│   ├── .env.example                 # Environment template
+│   ├── package.json
+│   ├── server.js                    # Entry point
+│   ├── seed.js                      # Database seeder
+│   └── src/
+│       ├── app.js                   # Express app setup
+│       ├── config/
+│       │   ├── db.js                # MongoDB connection
+│       │   └── env.js               # Environment variables
+│       ├── constants/
+│       │   └── permissions.js       # Default permission seeds
+│       ├── models/
+│       │   ├── User.js
+│       │   ├── Team.js
+│       │   ├── Role.js
+│       │   ├── Permission.js
+│       │   └── Membership.js
+│       ├── services/                # Business logic layer
+│       ├── controllers/             # Request handlers (thin)
+│       ├── routes/                  # API route definitions
+│       ├── middleware/
+│       │   ├── auth.js              # JWT verification
+│       │   ├── authorize.js         # checkPermission()
+│       │   ├── errorHandler.js      # Global error handler
+│       │   └── validate.js          # Validation runner
+│       ├── validators/              # express-validator chains
+│       └── utils/
+│           ├── ApiError.js          # Custom error class
+│           ├── ApiResponse.js       # Standardized responses
+│           └── jwt.js               # Token helpers
+│
+└── client/                          # Frontend (React + Vite)
+    ├── package.json
+    ├── vite.config.js               # Vite + proxy config
+    └── src/
+        ├── App.jsx                  # Root with routing
+        ├── main.jsx                 # Entry point
+        ├── index.css                # Global dark theme styles
+        ├── api/axios.js             # Axios with JWT interceptors
+        ├── context/AuthContext.jsx   # Authentication state
+        ├── hooks/useApi.js          # Reusable fetch hook
+        ├── components/
+        │   ├── layout/              # Sidebar, Navbar, AppLayout
+        │   └── ui/                  # Modal, Loader
+        └── pages/                   # 7 page components
+</pre>
+
+<!-- 9. SETUP & INSTALLATION -->
+<div class="page-break"></div>
+<h2>9. Setup & Installation Guide</h2>
+
+<h3>Prerequisites</h3>
+<ul>
+<li><strong>Node.js</strong> v18 or higher — <a href="https://nodejs.org">nodejs.org</a></li>
+<li><strong>MongoDB</strong> running locally on port 27017 — <a href="https://www.mongodb.com/try/download/community">mongodb.com</a></li>
+<li><strong>Git</strong> installed — <a href="https://git-scm.com">git-scm.com</a></li>
+</ul>
+
+<h3>Step 1: Clone the Repository</h3>
+<pre>
+git clone https://github.com/techcodings/Rengy_Full_Stack.git
+cd Rengy_Full_Stack
+</pre>
+
+<h3>Step 2: Setup Backend</h3>
+<pre>
+cd server
+npm install
+</pre>
+
+<h3>Step 3: Configure Environment Variables</h3>
+<pre>
+# Copy the example env file
+cp .env.example .env
+
+# The .env file should contain:
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/teamvault
+JWT_SECRET=your_jwt_secret_key_here
+JWT_EXPIRES_IN=7d
+NODE_ENV=development
+</pre>
+
+<h3>Step 4: Start MongoDB</h3>
+<pre>
+# Make sure MongoDB is running on localhost:27017
+# On Windows: net start MongoDB
+# On Mac: brew services start mongodb-community
+# On Linux: sudo systemctl start mongod
+</pre>
+
+<h3>Step 5: Seed the Database</h3>
+<pre>
+npm run seed
+</pre>
+<p>This creates: <strong>4 permissions</strong>, <strong>3 roles</strong>, <strong>5 users</strong>, <strong>3 teams</strong>, and <strong>9 memberships</strong>.</p>
+
+<h3>Step 6: Start the Backend Server</h3>
+<pre>
+npm run dev
+</pre>
+<p>Server runs at <code>http://localhost:5000</code></p>
+
+<h3>Step 7: Setup Frontend (New Terminal)</h3>
+<pre>
+cd ../client
+npm install
+npm run dev
+</pre>
+<p>Frontend runs at <code>http://localhost:3000</code></p>
+
+<h3>Step 8: Open the Application</h3>
+<pre>
+# Open in browser:
+http://localhost:3000
+
+# Login with seed credentials:
+Email:    alice@example.com
+Password: password123
+</pre>
+
+<div class="highlight">
+<strong>Quick Start (All Commands):</strong><br>
+<code>git clone https://github.com/techcodings/Rengy_Full_Stack.git && cd Rengy_Full_Stack</code><br>
+<code>cd server && npm install && cp .env.example .env && npm run seed && npm run dev</code><br>
+<em>(Open new terminal)</em><br>
+<code>cd client && npm install && npm run dev</code>
+</div>
+
+<!-- 10. SEED DATA -->
+<h2>10. Seed Data Reference</h2>
+
+<h3>Permissions</h3>
+<table>
+<tr><th>Permission</th><th>Description</th></tr>
+<tr><td>CREATE_TASK</td><td>Create new tasks and assignments</td></tr>
+<tr><td>EDIT_TASK</td><td>Modify existing tasks and details</td></tr>
+<tr><td>DELETE_TASK</td><td>Permanently remove tasks</td></tr>
+<tr><td>VIEW_ONLY</td><td>Read-only access to team content</td></tr>
+</table>
+
+<h3>Roles</h3>
+<table>
+<tr><th>Role</th><th>Permissions</th></tr>
+<tr><td><span class="badge bg-red">Admin</span></td><td>CREATE_TASK, EDIT_TASK, DELETE_TASK, VIEW_ONLY</td></tr>
+<tr><td><span class="badge bg-yellow">Manager</span></td><td>CREATE_TASK, EDIT_TASK, VIEW_ONLY</td></tr>
+<tr><td><span class="badge bg-green">Viewer</span></td><td>VIEW_ONLY</td></tr>
+</table>
+
+<h3>User-Team-Role Mapping</h3>
+<table>
+<tr><th>User</th><th>Team Alpha</th><th>Team Beta</th><th>Team Gamma</th></tr>
+<tr><td>Alice Johnson</td><td><span class="badge bg-red">Admin</span></td><td><span class="badge bg-green">Viewer</span></td><td>—</td></tr>
+<tr><td>Bob Smith</td><td><span class="badge bg-yellow">Manager</span></td><td><span class="badge bg-red">Admin</span></td><td>—</td></tr>
+<tr><td>Charlie Brown</td><td><span class="badge bg-green">Viewer</span></td><td>—</td><td><span class="badge bg-red">Admin</span></td></tr>
+<tr><td>Diana Prince</td><td>—</td><td><span class="badge bg-yellow">Manager</span></td><td><span class="badge bg-green">Viewer</span></td></tr>
+<tr><td>Eve Williams</td><td>—</td><td>—</td><td><span class="badge bg-yellow">Manager</span></td></tr>
+</table>
+
+<div class="highlight">
+<strong>All login credentials:</strong> Use any email above with password <code>password123</code>
+</div>
+
+<div style="margin-top:60px;text-align:center;color:#999;font-size:12px;border-top:1px solid #eee;padding-top:20px">
+TeamVault — Team Management System with RBAC · Built with MERN Stack · github.com/techcodings/Rengy_Full_Stack
+</div>
+
+</body>
+</html>
